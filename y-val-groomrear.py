@@ -50,7 +50,8 @@ def vel_det(file, legend_label, line_color):
 
     i = 0
 
-    rear_values = data_df['head_y'].values<=300
+    # rear_values = data_df['head_y'].values<=300
+    rear_values = data_df['head_y'].values <= 300
     print(rear_values)
     data_df['Orientation']=rear_values
     data_df['GR'] = 'groom'
@@ -65,7 +66,7 @@ def vel_det(file, legend_label, line_color):
     #         # 0 for groom/walk
     #         data_df[file + '_orient'] = 'groom'
     #         i=1+i
-    print(data_df)
+    # print(data_df)
     # for values in data_df['head_y']:
     #     if values >= 234:
     #         y_cord_df.insert(loc=data_df.loc[], column=file + '_orient', value=1, allow_duplicates=True)
@@ -74,10 +75,31 @@ def vel_det(file, legend_label, line_color):
     #         y_cord_df.insert(loc=i, column=file+'_orient', value=0, allow_duplicates=True)
     #     i = i+1
     #     print('iter'+str(i))
-    print(data_df['Orientation'])
+    # print(data_df['Orientation'])
+    filt_df = data_df['head_y'] > 400
+    print(data_df[filt_df])
+    plt.figure(figsize=(6, 9.5))
     # plt.plot(data_df['Time Elapsed']/60, data_df["GR"], color=line_color, linewidth=1, label=legend_label)
-    plt.plot(data_df['Time Elapsed']/60, data_df['head_y']*-1, color=line_color, linewidth=1, label=legend_label)
-    plt.axhline(y=-300)
+    # plt.plot(data_df['Time Elapsed']/60, data_df['head_y']*-1, color=line_color, linewidth=1, label=legend_label)
+    plt.plot(data_df[filt_df].head_y,data_df[filt_df].index/3600, color=line_color, linewidth=1, label=legend_label)
+
+    # plt.axhline(y=-300)
+
+
+    leg = plt.legend()
+    font = {'family': 'Arial',
+            'size': 12}
+    plt.rc('font', **font)
+    plt.rc('lines', linewidth = 1)
+    for i in leg.legendHandles:
+        i.set_linewidth(3)
+    plt.xlabel('y coordinate(pixels)', fontsize=12)
+    plt.ylabel('time(minutes)', fontsize=12)
+    plt.title(legend_label)
+
+
+    plt.savefig(legend_label+'.jpg', format='jpg')
+    plt.show()
 if __name__ == '__main__':
 
     """Saline Data"""
@@ -85,8 +107,8 @@ if __name__ == '__main__':
     #              legend_label='Saline F0', line_color='yellowgreen')
     # vel_det(file='Saline_Ai14_OPRK1_C2_F1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
     #              legend_label='Saline F1', line_color='lightgreen')
-    vel_det(file='Saline_Ai14_OPRK1_C1_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-                 legend_label='Saline F2', line_color='lightgreen')
+    # vel_det(file='Saline_Ai14_OPRK1_C1_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+                 # legend_label='Saline F2', line_color='lightgreen')
     #
     # vel_det(file='Saline_Ai14_OPRK1_C1_M1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
     #              legend_label='Saline M1', line_color='green')
@@ -141,21 +163,21 @@ if __name__ == '__main__':
     #
     """U50 Data"""
 
-    # vel_det(file='U50_Ai14_OPRK1_C1_F0_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #         legend_label='F0 5mgkg U50', line_color='steelblue')
-    # vel_det(file='U50_Ai14_OPRK1_C1_F1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #              legend_label='F1 5mgkg U50', line_color='deepskyblue')
-    # vel_det(file='U50_Ai14_OPRK1_C2_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #         legend_label='F2 5mgkg U50', line_color='powderblue')
-    #
-    # vel_det(file='U50_Ai14_OPRK1_C1_M1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #              legend_label='M1 5mgkg U50', line_color='blue')
-    # vel_det(file='U50_Ai14_OPRK1_C1_M2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #              legend_label='M2 5mgkg U50', line_color='blue')
-    # vel_det(file='U50_Ai14_OPRK1_C1_M3_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #         legend_label='M3 5mgkg U50', line_color='lightblue')
-    # vel_det(file='U50_Ai14_OPRK1_C1_M4_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-    #              legend_label='M4 5mgkg U50', line_color='turquoise')
+    vel_det(file='U50_Ai14_OPRK1_C1_F0_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+            legend_label='F0 5mgkg U50', line_color='steelblue')
+    vel_det(file='U50_Ai14_OPRK1_C1_F1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+                 legend_label='F1 5mgkg U50', line_color='deepskyblue')
+    vel_det(file='U50_Ai14_OPRK1_C2_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+            legend_label='F2 5mgkg U50', line_color='powderblue')
+
+    vel_det(file='U50_Ai14_OPRK1_C1_M1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+                 legend_label='M1 5mgkg U50', line_color='blue')
+    vel_det(file='U50_Ai14_OPRK1_C1_M2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+                 legend_label='M2 5mgkg U50', line_color='blue')
+    vel_det(file='U50_Ai14_OPRK1_C1_M3_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+            legend_label='M3 5mgkg U50', line_color='lightblue')
+    vel_det(file='U50_Ai14_OPRK1_C1_M4_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+                 legend_label='M4 5mgkg U50', line_color='turquoise')
 
     # only_U50 = avg_df.loc[:,
     #            ['U50_Ai14_OPRK1_C1_F1_Top DownDLC_resnet50_BigBinTopSep17shuffle1_250000filtered - Copy.h5',
@@ -176,8 +198,8 @@ if __name__ == '__main__':
     #         legend_label='F0 10mgkg NORBNI+5mgkg U50', line_color='orange')
     # vel_det(file='NORBNI_U50_Ai14_OPRK1_C2_F1_sDLC_resnet50_SideViewNov1shuffle1_180000filtered.h5',
     #         legend_label='F1 10mgkg NORBNI+5mgkg U50', line_color='darkorange')
-    vel_det(file='NORBNI_U50_Ai14_OPRK1_C2_F2_sDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-            legend_label='F2 10mgkg NORBNI+5mgkg U50', line_color='coral')
+    # vel_det(file='NORBNI_U50_Ai14_OPRK1_C2_F2_sDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+            # legend_label='F2 10mgkg NORBNI+5mgkg U50', line_color='coral')
     #
     #
     # vel_det(file='NORBNI_U50_Ai14_OPRK1_C1_M1_sDLC_resnet50_SideViewNov1shuffle1_180000.h5',
@@ -204,8 +226,8 @@ if __name__ == '__main__':
     """NORBNI Saline"""
     # vel_det(file='NORBNI_Saline_Ai14_OPRK1_C2_F1_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
     #         legend_label='F1 10mgkg NORBNI+Saline', line_color='purple')
-    vel_det(file='NORBNI_Saline_Ai14_OPRK1_C2_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
-            legend_label='F2 10mgkg NORBNI+Saline', line_color='purple')
+    # vel_det(file='NORBNI_Saline_Ai14_OPRK1_C2_F2_side viewDLC_resnet50_SideViewNov1shuffle1_180000.h5',
+            # legend_label='F2 10mgkg NORBNI+Saline', line_color='purple')
     # vel_det(file='NORBNI_U50_Ai14_OPRK1_C2_F0_sDLC_resnet50_SideViewNov1shuffle1_180000.h5',
     #         legend_label='F0 10mgkg NORBNI+Saline', line_color='violet')
     #
@@ -226,15 +248,15 @@ if __name__ == '__main__':
     #                  avg_df["Avg Vel U50"]+avg_df["Avg Vel U50 SEM"], alpha=0.25, facecolor='orange', edgecolor='orange')
     # plt.fill_between(avg_df['Time'], avg_df["Avg Vel NORBNI"]-avg_df["Avg Vel NORBNI SEM"],
     #                  avg_df["Avg Vel NORBNI"]+avg_df["Avg Vel NORBNI SEM"], alpha=0.25, facecolor='blue', edgecolor='blue')
-    plt.plot()
-    leg = plt.legend()
-    font = {'family': 'Arial',
-            'size': 12}
-    plt.rc('font', **font)
-    plt.rc('lines', linewidth = 1)
-    for i in leg.legendHandles:
-        i.set_linewidth(3)
-    plt.xlabel('time (minutes)', fontsize=12)
-    plt.ylabel('pixel', fontsize=12)
-    plt.title('F2 NORBNI, NORBNI+U50, Saline Head Inverted Y-coordinate')
-    plt.show()
+    # plt.plot()
+    # leg = plt.legend()
+    # font = {'family': 'Arial',
+    #         'size': 12}
+    # plt.rc('font', **font)
+    # plt.rc('lines', linewidth = 1)
+    # for i in leg.legendHandles:
+    #     i.set_linewidth(3)
+    # plt.xlabel('time (minutes)', fontsize=12)
+    # plt.ylabel('pixel', fontsize=12)
+    # plt.title('F2 NORBNI, NORBNI+U50, Saline Head Inverted Y-coordinate')
+    # plt.show()
